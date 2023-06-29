@@ -201,7 +201,7 @@ func SetNamespace(_ namespace: [String], previous pns: inout [String], code: ino
 
 func GenEnumDataModel(_ enumDef: Enum, code: inout String) {
   code +=
-    "\npublic enum \(enumDef.name): \(SwiftType[enumDef.underlyingType!]!), DflatFriendlyValue {\n"
+    "\npublic enum \(enumDef.name): \(SwiftType[enumDef.underlyingType!]!), Codable, DflatFriendlyValue {\n"
   for field in enumDef.fields {
     code += "  case \(field.name.firstLowercasedIfNotAllCaps()) = \(field.value)\n"
   }
@@ -212,7 +212,7 @@ func GenEnumDataModel(_ enumDef: Enum, code: inout String) {
 }
 
 func GenUnionDataModel(_ enumDef: Enum, code: inout String) {
-  code += "\npublic enum \(enumDef.name): Equatable {\n"
+  code += "\npublic enum \(enumDef.name): Equatable, Codable {\n"
   for field in enumDef.fields {
     guard field.name != "NONE" else { continue }
     code += "  case \(field.name.firstLowercased())(_: \(field.name))\n"
@@ -459,7 +459,7 @@ func GetStructDeserializer(_ structDef: Struct) -> String {
 }
 
 func GenStructDataModel(_ structDef: Struct, code: inout String) {
-  code += "\npublic struct \(structDef.name): Equatable, FlatBuffersDecodable {\n"
+  code += "\npublic struct \(structDef.name): Equatable, Codable, FlatBuffersDecodable {\n"
   for field in structDef.fields {
     guard IsDataField(field) else { continue }
     code += "  public var \(field.name): \(GetFieldType(field))\n"
@@ -506,7 +506,7 @@ func GenStructDataModel(_ structDef: Struct, code: inout String) {
 
 func GenRootDataModel(_ structDef: Struct, code: inout String) {
   code +=
-    "\npublic final class \(structDef.name): Dflat.Atom, SQLiteDflat.SQLiteAtom, FlatBuffersDecodable, Equatable {\n"
+    "\npublic final class \(structDef.name): Dflat.Atom, SQLiteDflat.SQLiteAtom, Codable, FlatBuffersDecodable, Equatable {\n"
   code += "  public static func == (lhs: \(structDef.name), rhs: \(structDef.name)) -> Bool {\n"
   for field in structDef.fields {
     guard IsDataField(field) else { continue }

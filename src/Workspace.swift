@@ -56,7 +56,7 @@ public protocol WorkspaceDictionary {
    * - Returns: Value associated with the provided key. Nil if doesn't exist.
    */
   subscript<T: Codable & Equatable>(_: String, _: T.Type) -> T? { get set }
-  subscript<T: FlatBuffersCodable & Equatable>(_: String, _: T.Type) -> T? { get set }
+  subscript<T: Codable & FlatBuffersCodable & Equatable>(_: String, _: T.Type) -> T? { get set }
   subscript(_: String, _: Bool.Type) -> Bool? { get set }
   subscript(_: String, _: Int.Type) -> Int? { get set }
   subscript(_: String, _: UInt.Type) -> UInt? { get set }
@@ -346,7 +346,7 @@ extension WorkspaceDictionary {
     get { self[key, T.self] }
     set { self[key, T.self] = newValue }
   }
-  public subscript<T: FlatBuffersCodable & Equatable>(key: String) -> T? {
+  public subscript<T: Codable & FlatBuffersCodable & Equatable>(key: String) -> T? {
     get { self[key, T.self] }
     set { self[key, T.self] = newValue }
   }
@@ -394,7 +394,7 @@ extension WorkspaceDictionary {
   public subscript<T: Codable & Equatable>(key: String, default value: T) -> T {
     get { self[key] ?? value }
   }
-  public subscript<T: FlatBuffersCodable & Equatable>(key: String, default value: T) -> T {
+  public subscript<T: Codable & FlatBuffersCodable & Equatable>(key: String, default value: T) -> T {
     get { self[key] ?? value }
   }
   public subscript(key: String, default value: Bool) -> Bool {

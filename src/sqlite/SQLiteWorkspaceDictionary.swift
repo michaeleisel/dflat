@@ -100,7 +100,7 @@ struct SQLiteWorkspaceDictionary: WorkspaceDictionary {
       }
     }
   }
-  subscript<T: FlatBuffersCodable & Equatable>(key: String, _: T.Type) -> T? {
+  subscript<T: Codable & FlatBuffersCodable & Equatable>(key: String, _: T.Type) -> T? {
     get {
       let tuple = storage.getAndLock(key)
       if let value = tuple.0 {
